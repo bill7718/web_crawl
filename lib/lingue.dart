@@ -38,6 +38,9 @@ void analyse(Directory dir, List<String> sites,
   var fTrending = File(dir.path + '/trending.txt');
   var trending = <String>{};
 
+  var fDeleted = File(dir.path + '/deleted.txt');
+  var deleted = <String>{};
+
   var reviewedReverse = reviewedLines.reversed;
 
   var wordPendingValue = <String, double>{};
@@ -76,7 +79,7 @@ void analyse(Directory dir, List<String> sites,
   var t1 = DateTime.now().millisecondsSinceEpoch;
   //print('All files read in ${t1 - time} milliseconds');
 
-  print ('backlog length before : ${backlog.length}');
+  print('backlog length before : ${backlog.length}');
   for (var site in sites) {
     var content = await getFromWebsite(site);
 
@@ -89,7 +92,7 @@ void analyse(Directory dir, List<String> sites,
     }
     //backlog.addAll(content);
   }
-  print ('backlog length after : ${backlog.length}');
+  print('backlog length after : ${backlog.length}');
   var t2 = DateTime.now().millisecondsSinceEpoch;
   //print('Web site read and backlog updated in ${t2 - t1} milliseconds');
 
@@ -176,7 +179,7 @@ void analyse(Directory dir, List<String> sites,
       // add to pending
       if (!reviewed.contains(line) &&
           words.length >= minSentenceLength &&
-          (sentenceValue < 0.08 || reviewed.length < 5000)) {
+          (sentenceValue < 0.075 || reviewed.length < 5000)) {
         pending.add(line);
         for (var word in words) {
           var w = clean(word);
@@ -260,7 +263,6 @@ void analyse(Directory dir, List<String> sites,
   var kAverage = 0.00;
   var keptWithOneMissingWord = <String>{};
 
-
   if (backlog.length > maxLines) {
     pending.add(backlog.first);
     backlog.remove(backlog.first);
@@ -268,7 +270,8 @@ void analyse(Directory dir, List<String> sites,
 
     var i = backlog.length - maxLines;
     var j = 0;
-    while ((j < i && backlog.length > maxLines) || (pending.length < 50 && j < 2000)) {
+    while ((j < i && backlog.length > maxLines) ||
+        (pending.length < 50 && j < 2000)) {
       var minOccurrence = 999;
       var missingCount = 0;
       var numberOfWords = 0;
@@ -292,14 +295,18 @@ void analyse(Directory dir, List<String> sites,
 
       if (minOccurrence <= removeLimit ||
           numberOfWords < 4 ||
-          (ankiNumber == numberOfWords && numberOfWords < 6))  {
+          (ankiNumber == numberOfWords && numberOfWords < 6)) {
         if (missingCount != 1 || (numberOfWords < 4 && missingCount > 0)) {
           if (backlog.length > maxLines) {
             kAverage = kAverage + k;
             backlog.remove(line);
+            if (numberOfWords > 3) {
+              deleted.add(line);
+            }
           }
         } else {
-          pending.add(line);          // add to pending if this is the only missing word in the sentence
+          pending.add(
+              line); // add to pending if this is the only missing word in the sentence
         }
         //print('${line.length} : $line');
         failedAttempts = 0;
@@ -519,7 +526,8 @@ void analyse(Directory dir, List<String> sites,
   fContent.writeAsStringSync(htmlContentPart1, mode: FileMode.write);
 
   for (var line in pending) {
-    fContent.writeAsStringSync('<span>$line</span><br/>\n', mode: FileMode.append);
+    fContent.writeAsStringSync('<span>$line</span><br/>\n',
+        mode: FileMode.append);
   }
   fContent.writeAsStringSync(htmlContentPart2, mode: FileMode.append);
 
@@ -709,6 +717,10 @@ void analyse(Directory dir, List<String> sites,
         fTrending.writeAsStringSync(w + '\n', mode: FileMode.append);
       }
     }
+
+    for (var l in deleted) {
+      fDeleted.writeAsStringSync(l + '\n', mode: FileMode.append);
+    }
   }
 
   /*
@@ -758,7 +770,6 @@ void analyse(Directory dir, List<String> sites,
   fOneMissing.writeAsStringSync(oneMissingContent);
 
 */
-
 }
 
 class WordOccurrenceCount {

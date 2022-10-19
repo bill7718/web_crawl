@@ -15,7 +15,7 @@ void main() async {
   });
 
   Timer(Duration(milliseconds: 30000), () {
-    nederland.main();
+  //    nederland.main();
   });
 
   Timer(Duration(milliseconds: 50000), () {
