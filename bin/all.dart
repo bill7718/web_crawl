@@ -14,19 +14,19 @@ void main() async {
     italia.main();
   });
 
-  Timer(Duration(milliseconds: 30000), () {
+  Timer(Duration(milliseconds: 20000), () {
   //    nederland.main();
   });
 
-  Timer(Duration(milliseconds: 50000), () {
+  Timer(Duration(milliseconds: 30000), () {
     espanol.main();
   });
 
-  Timer(Duration(milliseconds: 70000), () {
+  Timer(Duration(milliseconds: 40000), () {
     francais.main();
   });
 
-  Timer(Duration(milliseconds: 90000), () {
+  Timer(Duration(milliseconds: 50000), () {
     deutsche.main();
   });
 

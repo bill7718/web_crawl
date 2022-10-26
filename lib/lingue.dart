@@ -724,6 +724,47 @@ void analyse(Directory dir, List<String> sites,
   }
 
   /*
+  var oneCount = 0;
+  var oneInAnkiCount = 0;
+  var oneMissing = <int, int>{};
+  var im = 1;
+  while (im < 10) {
+    oneMissing[1] = 0;
+    im++;
+  }
+
+  for (var line in backlog) {
+    var words = split(line);
+    if (words.length > 3) {
+      var missingCount = 0;
+      var minMissingOccurrence = 999;
+      for (var w in words) {
+        var word = clean(w);
+        if (wordCount[word] == 1) {
+          oneCount++;
+          if (anki.contains(word)) {
+            oneInAnkiCount++;
+          }
+        }
+        if (!anki.contains(word)) {
+          missingCount++;
+          minMissingOccurrence = min(minMissingOccurrence, wordCount[word] ?? 9999);
+        }
+      }
+      if (missingCount == 1) {
+        oneMissing[minMissingOccurrence] == null
+            ? oneMissing[minMissingOccurrence] = 1
+            : oneMissing[minMissingOccurrence] = oneMissing[minMissingOccurrence] + 1;
+
+      }
+    }
+  }
+
+  print ('There are $oneCount words that appear once. Of these $oneInAnkiCount are in anki');
+  print(oneMissing);
+
+   */
+  /*
   var oneMissing = <String>{};
   var fOneMissing = File(dir.path + '/oneMissing.txt');
 

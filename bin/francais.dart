@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:web_crawl/lingue.dart';
+import 'package:web_crawl/lingue2.dart';
 
 void main() async {
 
@@ -18,6 +19,6 @@ void main() async {
   ];
 
   var dir = Directory(Directory.current.path + '/fr');
-  analyse(dir, sites, withSummary: true, compareBacklogWords: true);
+  analyse2(dir, sites, withSummary: true, compareBacklogWords: true);
 
 }

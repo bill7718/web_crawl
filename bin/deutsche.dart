@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:math';
 import 'package:web_crawl/books.dart';
 import 'package:web_crawl/lingue.dart';
+import 'package:web_crawl/lingue2.dart';
 
 void main() async {
 
@@ -43,5 +44,5 @@ void main() async {
   }
 
   var dir = Directory(Directory.current.path + '/de');
-  analyse(dir, get, withSummary: true, compareBacklogWords: true);
+  analyse2(dir, get, withSummary: true, compareBacklogWords: true);
 }

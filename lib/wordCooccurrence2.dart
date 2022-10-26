@@ -155,7 +155,7 @@ void build(Directory dir) {
 
   var totalUnattached = 0.00;
   for (var w in wordCount.keys) {
-    if (coOccurrence[w] != null && wordCount[w] > analysisLimit && !sample.contains(w)) {
+    if (coOccurrence[w] != null && wordCount[w] > analysisLimit && !sample.contains(w) && wordCount[w] < wordCount[sample.last]) {
       var current = <String, double>{};
       current.addAll(coOccurrence[w]);
       var vector = <String, double>{};
